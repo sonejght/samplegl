@@ -8,7 +8,10 @@ target_compile_features(${PROJECT_NAME}
     PRIVATE c_std_11
 )
 
-target_link_libraries(${PROJECT_NAME})
+add_subdirectory(coatglop)
+add_subdirectory(libs/glfw)
+
+target_link_libraries(${PROJECT_NAME} son8coatglop glfw)
 target_include_directories(${PROJECT_NAME}
     PUBLIC include
     PRIVATE source
