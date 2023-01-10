@@ -1,0 +1,3 @@
+[submodule "coatglop"]
+	path = coatglop
+	url = https://github.com/sonejght/coatglop.git
