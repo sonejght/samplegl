@@ -1,5 +1,6 @@
 #define GLFW_INCLUDE_NONE
-#include <glad/gl.h>
+//#include <glad/gl.h>
+#include <son8/opengl.hxx>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
