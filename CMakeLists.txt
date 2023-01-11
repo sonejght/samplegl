@@ -16,3 +16,5 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC include
     PRIVATE source
 )
+
+add_subdirectory(samples/glfw)

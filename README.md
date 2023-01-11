@@ -1,1 +1,1 @@
-# TEMPLATE
+# OpenGL Samples
