@@ -18,3 +18,4 @@ target_include_directories(${PROJECT_NAME}
 )
 
 add_subdirectory(samples/glfw)
+add_subdirectory(samples/glad)

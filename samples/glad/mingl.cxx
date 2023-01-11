@@ -16,7 +16,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 1);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-    auto window = glfwCreateWindow(640, 480, "glfw-mingl", nullptr, nullptr);
+    auto window = glfwCreateWindow(640, 480, "glad-mingl", nullptr, nullptr);
     assert(window != nullptr);
     glfwMakeContextCurrent(window);
     gladLoadGL((GLADloadfunc)glfwGetProcAddress);
