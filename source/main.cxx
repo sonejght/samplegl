@@ -1,3 +1,4 @@
+/* Ⓒ 2023 - Sonejght */
 #include <iostream>
 
 int main()

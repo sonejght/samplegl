@@ -1,3 +1,4 @@
+/* Ⓒ 2023 - Sonejght */
 #include <GLFW/glfw3.h>
 
 #include <iostream>

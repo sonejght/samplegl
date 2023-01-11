@@ -1,3 +1,4 @@
+/* Ⓒ 2023 - Sonejght */
 #define GLFW_INCLUDE_NONE
 #include <son8/opengl.hxx>
 #include <GLFW/glfw3.h>
