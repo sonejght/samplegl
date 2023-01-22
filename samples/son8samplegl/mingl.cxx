@@ -1,3 +1,4 @@
+/* Ⓒ 2023 - Sonejght */
 #include <son8/opengl-1_1.hxx>
 #include <son8/window.hxx>
 
