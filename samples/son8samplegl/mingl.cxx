@@ -12,5 +12,14 @@ int main()
     son8::run([](){
         gl::Clear();
         gl::ClearColor(.8f, .8f, .2f, 1.f);
+
+        gl::Begin();
+        {
+            glColor3f(.2f, .2f, .8f);
+            glVertex3f(-.8f,-.8f, .0f);
+            glVertex3f( .8f,-.8f, .0f);
+            glVertex3f( .0f, .8f, .0f);
+        }
+        gl::End();
     });
 }

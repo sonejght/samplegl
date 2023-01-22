@@ -43,13 +43,11 @@ public:
         window_ = glfwCreateWindow(width_, height_, title_.c_str(), nullptr, nullptr);
         assert(window_ != nullptr);
 
-
-
         glfwMakeContextCurrent(window_);
         gladLoadGL(reinterpret_cast< GLADloadfunc >(glfwGetProcAddress));
 
         glfwSwapInterval(1);
-        glfwSetWindowSizeCallback(window_, [](auto window, auto w, auto h) { glViewport(0, 0, w, h); });
+        glfwSetWindowSizeCallback(window_, [](auto window, auto w, auto h) { son8::opengl::Viewport(w, h); });
     }
     ~WindowOpenGL() noexcept
     {
@@ -76,7 +74,7 @@ namespace son8
         while (!glfwWindowShouldClose(*window))
         {
             func();
-            assert(glGetError() == GL_NO_ERROR);
+            son8::opengl::GetError();
             glfwSwapBuffers(*window);
             glfwPollEvents();
         }
