@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(son8samplegl LANGUAGES C CXX)
 
-add_executable(${PROJECT_NAME} source/main.cxx)
+add_library(${PROJECT_NAME} source/main.cxx)
 
 target_compile_features(${PROJECT_NAME}
     PRIVATE cxx_std_17
@@ -19,3 +19,4 @@ target_include_directories(${PROJECT_NAME}
 
 add_subdirectory(samples/glfw)
 add_subdirectory(samples/glad)
+add_subdirectory(samples/son8samplegl)
