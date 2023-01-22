@@ -10,15 +10,17 @@ int main()
     son8::window_init(640, 480);
 
     son8::run([](){
+        using v = gl::types::array2f;
+        using c = gl::types::array3f;
         gl::Clear();
         gl::ClearColor(.8f, .8f, .2f, 1.f);
 
         gl::Begin();
         {
-            glColor3f(.2f, .2f, .8f);
-            glVertex3f(-.8f,-.8f, .0f);
-            glVertex3f( .8f,-.8f, .0f);
-            glVertex3f( .0f, .8f, .0f);
+            gl::Color(c{.2f, .2f, .8f});
+            gl::Vertex(v{-.8f,-.8f});
+            gl::Vertex(v{ .8f,-.8f});
+            gl::Vertex(v{ .0f, .8f});
         }
         gl::End();
     });
