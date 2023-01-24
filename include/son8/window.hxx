@@ -1,9 +1,18 @@
 /* Ⓒ 2023 - Sonejght */
 #pragma once
-
+#define GLFW_IMCLUDE_NONE
+#include <GLFW/glfw3.h>
 namespace son8
 {
+    struct WindowEvent
+    {
+        int key;
+        int scancode;
+        int action;
+        int mods;
+    };
     using window_run_func = void (*)();
+    using window_call_func = void (*)(WindowEvent event);
 
     inline void window_init(unsigned width, unsigned height)
     {
@@ -16,5 +25,5 @@ namespace son8
     }
 
     void run(window_run_func func);
+    void call(window_call_func func);
 }
-

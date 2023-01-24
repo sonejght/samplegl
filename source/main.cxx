@@ -20,6 +20,7 @@ private:
     unsigned long version_;
     bool init_;
 public:
+    son8::window_call_func call_;
     WindowOpenGL(unsigned w, unsigned h, unsigned long v) : width_(w), height_(h), version_(v)
     {
         init_ = glfwInit();
@@ -78,5 +79,19 @@ namespace son8
             glfwSwapBuffers(*window);
             glfwPollEvents();
         }
+    }
+
+    void call(window_call_func func)
+    {
+        window->call_ = func;
+        glfwSetKeyCallback(*window, [](auto win, auto key, auto scancode, auto action, auto mods){
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(win, GLFW_TRUE);
+            WindowEvent event;
+            event.key = key;
+            event.scancode = scancode;
+            event.action = action;
+            event.mods = mods;
+            window->call_(event);
+        });
     }
 }
