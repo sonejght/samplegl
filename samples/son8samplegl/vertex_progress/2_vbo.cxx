@@ -2,14 +2,17 @@
 #include <son8/opengl-1_5.hxx>
 #include "helper/header.hxx"
 #include <iostream>
+#include <algorithm>
 
 namespace gl = son8::opengl;
 namespace GL = son8::opengl::enums;
 
-constexpr auto VBO_SIZE = 2;
+constexpr auto VBO_SIZE = 1;
 constexpr auto VBO_ARRAY_INDEX = 0;
-constexpr auto VBO_ELEMENT_INDEX = 1;
 GLuint vbo[VBO_SIZE];
+
+using Elements = gl::types::Elements< std::vector< GLubyte > >;
+Elements *Elems;
 
 class Draw : public son8::helper::DrawBase< Draw >
 {
@@ -17,26 +20,33 @@ class Draw : public son8::helper::DrawBase< Draw >
 public:
     void data_create()
     {
+        static std::vector< GLubyte > vec(Cube::IndicesCount);
+        int i = 0;
+        std::generate(vec.begin(), vec.end(), [&i](){ return Cube::model.indices[i++]; });
+        Elems = new Elements(vec, GL::Draw::Strip);
         glGenBuffers(VBO_SIZE, vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO_ARRAY_INDEX]);
         glBufferData(GL_ARRAY_BUFFER, Cube::Stride * Cube::VerticesCount, Cube::model.vertices, GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[VBO_ELEMENT_INDEX]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, Cube::IndicesSize, Cube::model.indices, GL_STATIC_DRAW);
+        gl::GenBuffers(*Elems);
+        gl::BindBuffer(*Elems);
+        gl::BufferData(*Elems);
         data_reject();
     }
 
     void data_delete()
     {
         glDeleteBuffers(VBO_SIZE, vbo);
+        gl::DeleteBuffers(*Elems);
+        delete Elems;
     }
 
     void data_accept()
     {
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_COLOR_ARRAY);
+        gl::EnableClientState(GL::Array::Vertex);
+        gl::EnableClientState(GL::Array::Color);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO_ARRAY_INDEX]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[VBO_ELEMENT_INDEX]);
+        gl::BindBuffer(*Elems);
 
         glVertexPointer(3, GL_FLOAT, Cube::Stride, (void *)0);
         glColorPointer(3, GL_FLOAT, Cube::Stride, (void *)Cube::ColOffset);
@@ -45,13 +55,13 @@ public:
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_COLOR_ARRAY);
+        gl::DisableClientState(GL::Array::Vertex);
+        gl::DisableClientState(GL::Array::Color);
     }
 
     void data_render()
     {
-        glDrawElements(GL_TRIANGLE_STRIP, Cube::IndicesCount, GL_UNSIGNED_BYTE, (void *)0);
+        gl::DrawElements(*Elems);
     }
 };
 

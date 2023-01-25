@@ -6,31 +6,42 @@
 namespace gl = son8::opengl;
 namespace GL = son8::opengl::enums;
 
+gl::types::Elements< std::vector< GLubyte > > *Elems;
+
 class Draw : public son8::helper::DrawBase< Draw >
 {
     using Cube = son8::helper::Cube;
 public:
-    void data_create() { std::cout << "create" << '\n'; }
+    void data_create()
+    {
+        static std::vector< GLubyte > vec(Cube::IndicesCount);
+        int i = 0;
+        for (auto &v : vec) v = Cube::model.indices[i++];
+        Elems = new gl::types::Elements(vec, GL::Draw::Strip);
+    }
 
-    void data_delete() { std::cout << "delete" << '\n'; }
+    void data_delete()
+    {
+        delete Elems;
+    }
 
     void data_accept()
     {
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_COLOR_ARRAY);
+        gl::EnableClientState(GL::Array::Vertex);
+        gl::EnableClientState(GL::Array::Color);
 
         glVertexPointer(3, GL_FLOAT, Cube::Stride, Cube::model.vertices);
         glColorPointer(3, GL_FLOAT, Cube::Stride, (GLubyte*)son8::helper::Cube::model.vertices + Cube::ColOffset);
     }
     void data_reject()
     {
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_COLOR_ARRAY);
+        gl::DisableClientState(GL::Array::Vertex);
+        gl::DisableClientState(GL::Array::Color);
     }
 
     void data_render()
     {
-        glDrawElements(GL_TRIANGLE_STRIP, Cube::IndicesCount, GL_UNSIGNED_BYTE, Cube::model.indices);
+        gl::DrawElements(*Elems);
     }
 };
 
