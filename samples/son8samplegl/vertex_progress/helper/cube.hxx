@@ -40,5 +40,7 @@ namespace son8::helper
             },
             {3,2,6,7,4,2,0,3,1,6,5,4,1,0},
         };
+        static constexpr auto IndicesSize = sizeof(model.indices[0]) * IndicesCount;
+        static constexpr auto VerticesSize = sizeof(model.vertices[0]) * VerticesCount;
     };
 }
