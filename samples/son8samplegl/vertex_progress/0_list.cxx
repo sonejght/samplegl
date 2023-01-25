@@ -5,20 +5,19 @@
 
 namespace gl = son8::opengl;
 namespace GL = son8::opengl::enums;
+gl::types::vectorList list;
 
-class Draw : public son8::helper::DrawBase< Draw >
+struct Draw : public son8::helper::DrawBase< Draw >
 {
-    using list_type = decltype(glGenLists(0));
-    list_type list;
-public:
     void data_create()
     {
         std::cout << "create" << '\n';
         using v = gl::types::array3f;
         using c = gl::types::array3f;
         using cube = son8::helper::Cube;
-        list = glGenLists(1);
-        glNewList(list, GL_COMPILE);
+        list = gl::GenLists(1);
+        std::cout << list[0] << "list\n";
+        gl::NewList(list[0]);
         gl::Begin(GL::Draw::Strip);
         {
             for (auto i : cube::model.indices) {
@@ -28,13 +27,13 @@ public:
             }
         }
         gl::End();
-        glEndList();
+        gl::EndList();
     }
 
     void data_delete()
     {
         std::cout << "delete" << '\n';
-        glDeleteLists(list, 1);
+        gl::DeleteLists(list);
     }
 
     void data_accept() { }
@@ -42,7 +41,8 @@ public:
 
     void data_render()
     {
-        glCallList(list);
+        std::cout << "lsit size: " << list.size() << std::endl;
+        gl::CallList(list[0]);
     }
 };
 
@@ -56,15 +56,15 @@ int main()
     son8::run([](){
         gl::Clear();
 
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-1, 1, -1, 1, -1, 1);
+        gl::MatrixMode(GL::Matrix::Projection);
+        gl::LoadIdentity();
+        gl::Ortho(-1, 1, -1, 1, -1, 1);
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glRotatef(RotateX, 1.f, 0.f, 0.f);
-        glRotatef(RotateY, 0.f, 1.f, 0.f);
-        glScalef(.5f, .5f, .5f);
+        gl::MatrixMode(GL::Matrix::ModelView);
+        gl::LoadIdentity();
+        gl::Rotate(RotateX, 1.f, 0.f, 0.f);
+        gl::Rotate(RotateY, 0.f, 1.f, 0.f);
+        gl::Scale(.5f, .5f, .5f);
 
         draw();
     });

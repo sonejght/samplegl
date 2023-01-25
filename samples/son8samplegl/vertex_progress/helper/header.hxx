@@ -21,6 +21,7 @@ namespace son8::helper
         void crtp_reject() { (static_cast< Draw* >(this))->data_reject(); }
         void crtp_delete() { (static_cast< Draw* >(this))->data_delete(); }
     public:
+
         DrawBase() { crtp_create(); }
         ~DrawBase() { crtp_delete(); }
         void operator ()() { crtp_accept(); crtp_render(); crtp_reject(); }
