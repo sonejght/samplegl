@@ -1,7 +1,6 @@
 /* Ⓒ 2023 - Sonejght */
 #include <son8/opengl-1_1.hxx>
 #include "helper/header.hxx"
-#include <iostream>
 
 namespace gl = son8::opengl;
 namespace GL = son8::opengl::enums;
@@ -11,12 +10,10 @@ struct Draw : public son8::helper::DrawBase< Draw >
 {
     void data_create()
     {
-        std::cout << "create" << '\n';
         using v = gl::types::array3f;
         using c = gl::types::array3f;
         using cube = son8::helper::Cube;
         list = gl::GenLists(1);
-        std::cout << list[0] << "list\n";
         gl::NewList(list[0]);
         gl::Begin(GL::Draw::Strip);
         {
@@ -32,7 +29,6 @@ struct Draw : public son8::helper::DrawBase< Draw >
 
     void data_delete()
     {
-        std::cout << "delete" << '\n';
         gl::DeleteLists(list);
     }
 
@@ -41,7 +37,6 @@ struct Draw : public son8::helper::DrawBase< Draw >
 
     void data_render()
     {
-        std::cout << "lsit size: " << list.size() << std::endl;
         gl::CallList(list[0]);
     }
 };

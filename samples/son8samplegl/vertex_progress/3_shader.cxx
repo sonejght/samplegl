@@ -60,21 +60,18 @@ public:
         data_reject();
         vec.clear();
 
-        GLuint vert = glCreateShader(GL_VERTEX_SHADER);
-        GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
-        std::string_view s = vert_shader_source;
-        const char *vert_source = vert_shader_source.c_str();
-        const char *frag_source = frag_shader_source.c_str();
-        glShaderSource(vert, 1, &vert_source, nullptr);
-        glShaderSource(frag, 1, &frag_source, nullptr);
-        glCompileShader(vert);
-        glCompileShader(frag);
+        gl::types::Shader vert = gl::CreateShader(GL::Shader::Vertex);
+        gl::types::Shader frag = gl::CreateShader(GL::Shader::Fragment);
+        gl::ShaderSource(vert, vert_shader_source.c_str());
+        gl::ShaderSource(frag, frag_shader_source.c_str());
+        gl::CompileShader(vert);
+        gl::CompileShader(frag);
         Program.index = glCreateProgram();
         glAttachShader(Program.index, vert);
         glAttachShader(Program.index, frag);
         glLinkProgram(Program.index);
-        glDeleteShader(vert);
-        glDeleteShader(frag);
+        gl::DeleteShader(vert);
+        gl::DeleteShader(frag);
 
         Program.pos = glGetAttribLocation(Program.index, "pos");
         assert(Program.pos != -1);
