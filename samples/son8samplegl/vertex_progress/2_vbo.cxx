@@ -11,7 +11,7 @@ constexpr auto VBO_SIZE = 1;
 constexpr auto VBO_ARRAY_INDEX = 0;
 GLuint vbo[VBO_SIZE];
 
-using Elements = gl::types::Elements< std::vector< GLubyte > >;
+using Elements = gl::types::Elements< std::vector< unsigned > >;
 Elements *Elems;
 
 class Draw : public son8::helper::DrawBase< Draw >
@@ -20,7 +20,7 @@ class Draw : public son8::helper::DrawBase< Draw >
 public:
     void data_create()
     {
-        static std::vector< GLubyte > vec(Cube::IndicesCount);
+        static std::vector< unsigned > vec(Cube::IndicesCount);
         int i = 0;
         std::generate(vec.begin(), vec.end(), [&i](){ return Cube::model.indices[i++]; });
         Elems = new Elements(vec, GL::Draw::Strip);
