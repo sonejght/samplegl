@@ -53,8 +53,8 @@ public:
     }
     void data_reject()
     {
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        gl::BindBuffer(GL::Buffer::Array);
+        gl::BindBuffer(GL::Buffer::Element);
         gl::DisableClientState(GL::Array::Vertex);
         gl::DisableClientState(GL::Array::Color);
     }

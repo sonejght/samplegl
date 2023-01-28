@@ -33,7 +33,7 @@ struct GLSLProgram
 {
     GLint pos;
     GLint col;
-    GLuint index;
+    gl::types::Program program = {0};
 };
 
 GLSLProgram Program;
@@ -66,46 +66,42 @@ public:
         gl::ShaderSource(frag, frag_shader_source.c_str());
         gl::CompileShader(vert);
         gl::CompileShader(frag);
-        Program.index = glCreateProgram();
-        glAttachShader(Program.index, vert);
-        glAttachShader(Program.index, frag);
-        glLinkProgram(Program.index);
+        Program.program = gl::CreateProgram();
+        gl::AttachShader(Program.program, vert);
+        gl::AttachShader(Program.program, frag);
+        gl::LinkProgram(Program.program);
         gl::DeleteShader(vert);
         gl::DeleteShader(frag);
 
-        Program.pos = glGetAttribLocation(Program.index, "pos");
-        assert(Program.pos != -1);
-        Program.col = glGetAttribLocation(Program.index, "col");
-        assert(Program.col != -1);
+        Program.pos = gl::GetAttribLocation(Program.program, "pos");
+        Program.col = gl::GetAttribLocation(Program.program, "col");
     }
 
     void data_delete()
     {
         glDeleteBuffers(VBO_SIZE, vbo);
         gl::DeleteBuffers(*Elems);
-        glDeleteProgram(Program.index);
+        gl::DeleteProgram(Program.program);
         delete Elems;
     }
 
     void data_accept()
     {
-        glEnableVertexAttribArray(Program.pos);
-        glEnableVertexAttribArray(Program.col);
+        gl::EnableVertexAttribArray(Program.program);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO_ARRAY_INDEX]);
         gl::BindBuffer(*Elems);
 
         glVertexAttribPointer(Program.pos, 3, GL_FLOAT, false, Cube::Stride, (void *)0);
         glVertexAttribPointer(Program.col, 3, GL_FLOAT, false, Cube::Stride, (void *)Cube::ColOffset);
-        glUseProgram(Program.index);
+        gl::UseProgram(Program.program);
     }
     void data_reject()
     {
-        glUseProgram(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        glDisableVertexAttribArray(Program.pos);
-        glDisableVertexAttribArray(Program.col);
+        gl::UseProgram();
+        gl::BindBuffer(GL::Buffer::Array);
+        gl::BindBuffer(GL::Buffer::Element);
+        gl::DisableVertexAttribArray(Program.program);
     }
 
     void data_render()
