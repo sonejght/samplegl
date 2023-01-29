@@ -61,7 +61,7 @@ int main()
         modelview = glm::rotate(modelview, glm::radians(RotateY), glm::vec3(0.f, 1.f, 0.f));
         modelview = glm::scale(modelview, glm::vec3(.5f));
         mvp *= modelview;
-        glLoadMatrixf(glm::value_ptr(mvp));
+        gl::LoadMatrix(gl::types::to_array16(glm::value_ptr(mvp)));
 
         draw();
     });
